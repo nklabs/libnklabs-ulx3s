@@ -33,7 +33,7 @@ AS = ${TOOL}/riscv32-unknown-elf-gcc
 
 ASFLAGS = -march=rv32imc -c
 
-CFLAGS = -I libnklabs -I . -O -march=rv32imc -Wall -Wconversion -Wunused -Wwrite-strings \
+CFLAGS = -I libnklabs/inc -I . -O -march=rv32imc -Wall -Wconversion -Wunused -Wwrite-strings \
  -Wstrict-overflow=4 -Wmissing-include-dirs -Winit-self -Wcast-qual \
  -Wundef -Wlogical-op -Wmissing-declarations -Wformat \
  -Wmissing-format-attribute -Wformat-nonliteral \
@@ -47,21 +47,21 @@ LDFLAGS = $(MCU) -specs=nano.specs -Tsections.lds $(LIBDIR) $(LIBS) -Wl,-Map=$(B
 OBJS = start.o main.o fpga.o nkarch_riscv.o nkuart_riscv.o nkymodem_cmd.o tunnel_fpga.o database.o \
 basic_cmds.o \
 info_cmd.o \
-libnklabs/nkchecked.o \
-libnklabs/nkdirect.o \
-libnklabs/nkcli.o \
-libnklabs/nkcrclib.o \
-libnklabs/nkdbase.o \
-libnklabs/nkinfile.o \
-libnklabs/nkmcuflash.o \
-libnklabs/nkoutfile.o \
-libnklabs/nkprintf.o \
-libnklabs/nkreadline.o \
-libnklabs/nkscan.o \
-libnklabs/nksched.o \
-libnklabs/nkserialize.o \
-libnklabs/nkstring.o \
-libnklabs/nkymodem.o
+libnklabs/src/nkchecked.o \
+libnklabs/src/nkdirect.o \
+libnklabs/src/nkcli.o \
+libnklabs/src/nkcrclib.o \
+libnklabs/src/nkdbase.o \
+libnklabs/src/nkinfile.o \
+libnklabs/src/nkmcuflash.o \
+libnklabs/src/nkoutfile.o \
+libnklabs/src/nkprintf.o \
+libnklabs/src/nkreadline.o \
+libnklabs/src/nkscan.o \
+libnklabs/src/nksched.o \
+libnklabs/src/nkserialize.o \
+libnklabs/src/nkstring.o \
+libnklabs/src/nkymodem.o
 
 # Keep them in a subdirectory
 MOST_OBJS = $(addprefix obj/, $(OBJS))
@@ -132,6 +132,7 @@ clean:
 obj:
 	mkdir obj
 	mkdir obj/libnklabs
+	mkdir obj/libnklabs/src
 
 # Bump version numbers...
 
