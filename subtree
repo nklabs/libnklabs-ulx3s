@@ -1,0 +1,11 @@
+Included subtree with:
+
+  git subtree add --prefix fw/libnklabs git@github.com:nklabs/libnklabs.git main --squash
+
+Pull changes with:
+
+  git subtree pull --prefix fw/libnklabs git@github.com:nklabs/libnklabs.git main --squash
+
+Push changes with:
+
+  git subtree push --prefix fw/libnklabs git@github.com:nklabs/libnklabs.git main
