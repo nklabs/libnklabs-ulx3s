@@ -33,7 +33,7 @@ AS = ${TOOL}/riscv32-unknown-elf-gcc
 
 ASFLAGS = -march=rv32imc -c
 
-CFLAGS = -I libnklabs/inc -I . -O -march=rv32imc -Wall -Wconversion -Wunused -Wwrite-strings \
+CFLAGS = -I libnklabs/inc -I config -I . -O -march=rv32imc -Wall -Wconversion -Wunused -Wwrite-strings \
  -Wstrict-overflow=4 -Wmissing-include-dirs -Winit-self -Wcast-qual \
  -Wundef -Wlogical-op -Wmissing-declarations -Wformat \
  -Wmissing-format-attribute -Wformat-nonliteral \
