@@ -291,7 +291,7 @@ bus_irq_reg #(.BUS_ADDR(32'h0300_000c), .DATAWIDTH(16), .LEVEL(16'h0001)) regc
 
 wire [63:0] sdram_rd_data;
 wire [63:0] sdram_wr_data;
-wire [22:0] sdram_addr;
+wire [21:0] sdram_addr;
 wire sdram_wr;
 wire sdram_req;
 wire sdram_ack;
@@ -352,8 +352,8 @@ wire [BUS_OUT_WIDTH-1:0] reg88_bus;
 wire [31:0] reg88_in;
 wire [31:0] reg88_out;
 
-assign reg88_in[23:0] = reg88_out[22:0];
-assign sdram_addr = reg88_out[22:0];
+assign reg88_in[23:0] = reg88_out[23:0];
+assign sdram_addr = reg88_out[21:0];
 assign sdram_wr = reg88_out[23];
 
 reg sdram_rd_done;

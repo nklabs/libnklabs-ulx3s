@@ -21,6 +21,7 @@
 // OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
 // THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#include <inttypes.h>
 #include "nkcli.h"
 #include "fpga.h"
 #include "tunnel_fpga.h"
@@ -177,14 +178,18 @@ static int cmd_sdram(nkinfile_t *args)
         sdram_rd_wait();
         fpga_rd(FPGAREG_SDRAM_LOW, (uint32_t *)&data);
         fpga_rd(FPGAREG_SDRAM_HIGH, 1 + (uint32_t *)&data);
-        nk_printf("Read %llx from %lx\n", data, addr);
+        nk_printf("Read %"PRIx64" from %"PRIx32"\n", data, addr);
     } else if (nk_fscan(args, "wr %x %llx ", &addr, &data)) {
         addr >>= 3;
         fpga_wr(FPGAREG_SDRAM_LOW, (uint32_t)data);
         fpga_wr(FPGAREG_SDRAM_HIGH, (uint32_t)(data >> 32));
         fpga_wr(FPGAREG_SDRAM_ADDR, addr | SDRAM_WRITE);
         sdram_ack_wait();
-        nk_printf("Wrote %llx to %lx\n", data, addr);
+        nk_printf("Wrote %"PRIx64" to %"PRIx32"\n", data, addr);
+    } else if (nk_fscan(args, "cmd %x ", &addr)) {
+        fpga_wr(FPGAREG_SDRAM_ADDR, addr | SDRAM_MODE);
+        sdram_ack_wait();
+        nk_printf("Command %"PRIx32"\n", addr);
     } else if (nk_fscan(args, "hd %x ", &addr)) {
         sdram_hex_dump(addr, 0x100);
     } else if (nk_fscan(args, "hd %x %x ", &addr, &len)) {
@@ -211,7 +216,7 @@ static int cmd_sdram(nkinfile_t *args)
             fpga_rd(FPGAREG_SDRAM_LOW, (uint32_t *)&val);
             fpga_rd(FPGAREG_SDRAM_HIGH, 1 + (uint32_t *)&val);
             if (val != data) {
-                nk_printf("%lx: expected %llx, got %llx\n", x, data, val);
+                nk_printf("%"PRIx32": expected %"PRIx64", got %"PRIx64"\n", x, data, val);
             }
             ++data;
         }
@@ -228,7 +233,7 @@ static int cmd_sdram(nkinfile_t *args)
             fpga_rd(FPGAREG_SDRAM_LOW, (uint32_t *)&val);
             fpga_rd(FPGAREG_SDRAM_HIGH, 1 + (uint32_t *)&val);
             if (val != data) {
-                nk_printf("%lx: expected %llx, got %llx\n", x, data, val);
+                nk_printf("%"PRIx32": expected %"PRIx64", got %"PRIx64"\n", x, data, val);
             }
             ++data;
         }
@@ -244,5 +249,7 @@ COMMAND(cmd_sdram,
     "-sdram rd <xx>             Read FPGA register\n"
     "-sdram wr <xx> <dd>        Write FPGA register\n"
     "-sdram hd <xx>             Read all FPGA registers\n"
+    "-sdram cmd <xx>            Send generic DRAM command\n"
     "-sdram test                Memory test\n"
+    "-sdram testrd              Memory test, read part only\n"
 )

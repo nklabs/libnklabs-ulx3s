@@ -47,6 +47,7 @@ extern const struct regfield fpga_regtable[];
 #define FPGAREG_SDRAM_ADDR 0x88
 
 #define SDRAM_WRITE 0x800000
+#define SDRAM_MODE 0x1000000
 #define SDRAM_REQ_DONE 0x80000000
 #define SDRAM_READ_DONE 0x40000000
 
