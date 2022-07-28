@@ -101,7 +101,7 @@ static int ymodem_recv_file_open(const char *name)
     }
 }
 
-static void ymodem_recv_file_write(unsigned char *buffer, size_t len)
+static void ymodem_recv_file_write(const unsigned char *buffer, size_t len)
 {
     nk_direct_write(&ymodem_file, buffer, len);
 }
