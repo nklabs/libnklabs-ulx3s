@@ -23,6 +23,7 @@
 #include "nkprintf.h"
 #include "nkmcuflash.h"
 #include "nkarch_riscv.h"
+#include "nksched.h"
 
 // Scheduler timer- using PICORV32 timer
 
@@ -86,7 +87,7 @@ extern uint32_t flashio_worker_end;
 static void flashio(uint8_t *data, uint32_t len, uint8_t wrencmd)
 {
 	uint32_t flashio_func[&flashio_worker_end - &flashio_worker_begin];
-	unsigned long irq_flag;
+	nk_irq_flag_t irq_flag;
 
 	// Copy help function to RAM
 	uint32_t *src_ptr = &flashio_worker_begin;
@@ -103,7 +104,7 @@ static void flashio(uint8_t *data, uint32_t len, uint8_t wrencmd)
 	nk_printf("\n");
 #endif
 
-	nk_irq_lock(&sched_lock, irq_flag);
+	irq_flag = nk_irq_lock(&sched_lock);
 
 	((void(*)(uint8_t*, uint32_t, uint32_t))flashio_func)(data, len, wrencmd);
 
@@ -167,7 +168,7 @@ int nk_mcuflash_erase(const void *info, uint32_t address, uint32_t byte_count)
 	return 0;
 }
 
-int nk_mcuflash_write(const void *info, uint32_t address, const uint8_t *data, uint32_t byte_count)
+int nk_mcuflash_write(const void *info, uint32_t address, const uint8_t *data, size_t byte_count)
 {
 	uint8_t xfer[256+4];
 	int rtn = 0; // Assume success
@@ -198,7 +199,7 @@ int nk_mcuflash_write(const void *info, uint32_t address, const uint8_t *data, u
 	return rtn;
 }
 
-int nk_mcuflash_read(const void *info, uint32_t address, uint8_t *data, uint32_t byte_count)
+int nk_mcuflash_read(const void *info, uint32_t address, uint8_t *data, size_t byte_count)
 {
 	uint8_t xfer[256+4];
 	int rtn = 0; // Assume success

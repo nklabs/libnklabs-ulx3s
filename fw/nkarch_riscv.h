@@ -26,6 +26,8 @@
 
 #include <stdint.h>
 
+#define NK_FLASH
+
 // PICORV32 Interrupt bits
 #define TIMER_IRQ (1 << 0)
 #define EBREAK_IRQ (1 << 1)
@@ -61,29 +63,40 @@
 #define picorv32_waitirq(pending) \
     __asm__ __volatile__ (".insn r 11, 4, 4, %0, 0, 0\n" : "=r" (pending))
 
-// Borrow Linux kernel lock syntax
-
-typedef int spinlock_t;
+typedef uint32_t nk_irq_flag_t;
+typedef int nk_spinlock_t;
 #define SPIN_LOCK_UNLOCKED 0
 
 // Restore interrupt enable flag
-#define nk_irq_unlock(lock, flags) \
-    do { \
-            uint32_t junk; \
-            picorv32_maskirq(junk, flags); \
-    } while (0);
+// Release spinlock on multi-core systems
+
+inline __attribute__((always_inline)) void nk_irq_unlock(nk_spinlock_t *lock, nk_irq_flag_t flags)
+{
+    (void)lock;
+    uint32_t junk;
+    picorv32_maskirq(junk, flags);
+}
+
+// Restore interrupt enable flag
+// Release spinlock on multi-core systems
+// Sleep until an interrupt occurs
+
+inline __attribute__((always_inline)) void nk_irq_unlock_and_wait(nk_spinlock_t *lock, nk_irq_flag_t flags, int deepness)
+{
+    (void)deepness;
+    nk_irq_unlock(lock, flags);
+}
 
 // Save interrupt enable flag and disable all interrupts
-#define nk_irq_lock(lock, flags) \
-    do { \
-            picorv32_maskirq(flags, ~0); \
-    } while (0);
+// Acquire spinlock on multi-core systems
 
-#define nk_irq_unlock_and_wait(lock, flags, deepness) \
-    do { \
-        nk_irq_unlock(lock, flags); \
-    } while (0);
-
+inline __attribute__((always_inline)) nk_irq_flag_t nk_irq_lock(nk_spinlock_t *lock)
+{
+    (void)lock;
+    nk_irq_flag_t flags;
+    picorv32_maskirq(flags, ~0);
+    return flags;
+}
 
 // Scheduler timer
 

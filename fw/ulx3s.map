@@ -179,7 +179,7 @@ RAM              0x0000000000000100 0x000000000000ff00 xrw
 Linker script and memory map
 
 
-.text           0x0000000000100000     0xca40
+.text           0x0000000000100000     0xca3c
                 0x0000000000100000                . = ALIGN (0x4)
  *(.text)
  .text          0x0000000000100000      0x2e8 obj/start.o
@@ -243,52 +243,52 @@ Linker script and memory map
                 0x0000000000102050                nk_direct_write_open
                 0x000000000010205e                nk_direct_write
                 0x00000000001020fe                nk_direct_write_close
- .text          0x0000000000102102      0x4f2 obj/libnklabs/src/nkcli.o
-                0x0000000000102316                nk_complete
-                0x00000000001023e0                nk_help
-                0x0000000000102508                nk_cli_enable
-                0x0000000000102526                nk_cli_disable
-                0x0000000000102530                nk_init_cli
- .text          0x00000000001025f4      0x174 obj/libnklabs/src/nkcrclib.o
-                0x00000000001025f4                nk_crc8
-                0x000000000010263a                nk_crc32be_update
-                0x0000000000102654                nk_crc32be_check
-                0x0000000000102680                nk_crc32le_update
-                0x000000000010269e                nk_crc32le_check
-                0x00000000001026ca                nk_crc16be_update
-                0x00000000001026ea                nk_crc16be_check
-                0x0000000000102716                nk_crc16le_update
-                0x000000000010273c                nk_crc16le_check
- .text          0x0000000000102768      0x2c8 obj/libnklabs/src/nkdbase.o
-                0x0000000000102768                nk_dbase_save
-                0x0000000000102884                nk_dbase_load
- .text          0x0000000000102a30      0x16a obj/libnklabs/src/nkinfile.o
-                0x0000000000102a30                nk_fseek_slow
-                0x0000000000102a94                nkinfile_open
-                0x0000000000102ace                nkinfile_open_mem
-                0x0000000000102aee                nkinfile_open_string
-                0x0000000000102b12                nk_fcopy
-                0x0000000000102b88                nk_infile_print
- .text          0x0000000000102b9a      0x432 obj/libnklabs/src/nkmcuflash.o
- .text          0x0000000000102fcc       0xa6 obj/libnklabs/src/nkoutfile.o
-                0x0000000000102fcc                nkoutfile_open
-                0x0000000000102fde                nk_fflush
-                0x0000000000103018                nkoutfile_open_mem
-                0x0000000000103030                _nk_flush_and_putc
- .text          0x0000000000103072      0x9dc obj/libnklabs/src/nkprintf.o
-                0x00000000001030a0                nk_findent
-                0x0000000000103104                nk_indent
-                0x0000000000103116                nk_vprintf
-                0x0000000000103804                nk_snprintf
-                0x000000000010383c                nk_sfprintf
-                0x000000000010388a                nk_printf
-                0x00000000001038ae                nk_fprintf
-                0x00000000001038ca                nk_fbyte_hex_dump
-                0x0000000000103a36                nk_byte_hex_dump
- .text          0x0000000000103a4e      0x8ca obj/libnklabs/src/nkreadline.o
-                0x00000000001042bc                nk_set_echo
-                0x00000000001042c8                nk_get_echo
-                0x00000000001042ce                nk_readline
+ .text          0x0000000000102102      0x4f0 obj/libnklabs/src/nkcli.o
+                0x0000000000102314                nk_complete
+                0x00000000001023de                nk_help
+                0x0000000000102506                nk_cli_enable
+                0x0000000000102524                nk_cli_disable
+                0x000000000010252e                nk_init_cli
+ .text          0x00000000001025f2      0x174 obj/libnklabs/src/nkcrclib.o
+                0x00000000001025f2                nk_crc8
+                0x0000000000102638                nk_crc32be_update
+                0x0000000000102652                nk_crc32be_check
+                0x000000000010267e                nk_crc32le_update
+                0x000000000010269c                nk_crc32le_check
+                0x00000000001026c8                nk_crc16be_update
+                0x00000000001026e8                nk_crc16be_check
+                0x0000000000102714                nk_crc16le_update
+                0x000000000010273a                nk_crc16le_check
+ .text          0x0000000000102766      0x2c8 obj/libnklabs/src/nkdbase.o
+                0x0000000000102766                nk_dbase_save
+                0x0000000000102882                nk_dbase_load
+ .text          0x0000000000102a2e      0x16a obj/libnklabs/src/nkinfile.o
+                0x0000000000102a2e                nk_fseek_slow
+                0x0000000000102a92                nkinfile_open
+                0x0000000000102acc                nkinfile_open_mem
+                0x0000000000102aec                nkinfile_open_string
+                0x0000000000102b10                nk_fcopy
+                0x0000000000102b86                nk_infile_print
+ .text          0x0000000000102b98      0x432 obj/libnklabs/src/nkmcuflash.o
+ .text          0x0000000000102fca       0xa6 obj/libnklabs/src/nkoutfile.o
+                0x0000000000102fca                nkoutfile_open
+                0x0000000000102fdc                nk_fflush
+                0x0000000000103016                nkoutfile_open_mem
+                0x000000000010302e                _nk_flush_and_putc
+ .text          0x0000000000103070      0x9dc obj/libnklabs/src/nkprintf.o
+                0x000000000010309e                nk_findent
+                0x0000000000103102                nk_indent
+                0x0000000000103114                _nk_vprintf
+                0x0000000000103802                _nk_snprintf
+                0x000000000010383a                _nk_sfprintf
+                0x0000000000103888                _nk_printf
+                0x00000000001038ac                _nk_fprintf
+                0x00000000001038c8                nk_fbyte_hex_dump
+                0x0000000000103a34                nk_byte_hex_dump
+ .text          0x0000000000103a4c      0x8cc obj/libnklabs/src/nkreadline.o
+                0x00000000001042be                nk_set_echo
+                0x00000000001042ca                nk_get_echo
+                0x00000000001042d0                nk_readline
  .text          0x0000000000104318      0xb8e obj/libnklabs/src/nkscan.o
                 0x0000000000104318                nk_fscan_ws
                 0x0000000000104362                nk_fscan_escape
@@ -299,70 +299,70 @@ Linker script and memory map
                 0x00000000001048c6                nk_fscan_hex
                 0x0000000000104a0a                nk_fscan_dec
                 0x0000000000104e42                nk_fscan_double
-                0x0000000000104e46                nk_vscan
-                0x0000000000104e5a                nk_viscan
-                0x0000000000104e6e                nk_fscan
-                0x0000000000104e8a                nk_fiscan
- .text          0x0000000000104ea6      0x4e4 obj/libnklabs/src/nksched.o
+                0x0000000000104e46                _nk_vscan
+                0x0000000000104e5a                _nk_viscan
+                0x0000000000104e6e                _nk_fscan
+                0x0000000000104e8a                _nk_fiscan
+ .text          0x0000000000104ea6      0x4e2 obj/libnklabs/src/nksched.o
                 0x0000000000104f24                nk_get_tid
                 0x0000000000104f2c                nk_alloc_tid
                 0x0000000000104f3a                _nk_sched
-                0x0000000000105156                nk_resched
-                0x000000000010521a                nk_unsched
-                0x000000000010526a                nk_check
-                0x00000000001052b8                nk_init_sched
-                0x0000000000105300                nk_get_sched_sleep_mode
-                0x0000000000105308                nk_set_sched_sleep_mode
-                0x0000000000105316                nk_sched_loop
- .text          0x000000000010538a     0x29cc obj/libnklabs/src/nkserialize.o
-                0x0000000000105a6c                nk_dbase_fprint
-                0x00000000001060fc                nk_dbase_serialize
-                0x00000000001065e8                nk_fscan_keyval
-                0x0000000000107b70                nk_xpath
- .text          0x0000000000107d56      0x124 obj/libnklabs/src/nkstring.o
-                0x0000000000107d56                nk_tolower
-                0x0000000000107d66                nk_tolowers
-                0x0000000000107d8a                nk_stricmp
-                0x0000000000107df0                nk_memicmp
-                0x0000000000107e4a                nk_isxdigit
-                0x0000000000107e66                nk_isspace
- .text          0x0000000000107e7a      0xc78 obj/libnklabs/src/nkymodem.o
-                0x00000000001081bc                nk_ysend_file
-                0x0000000000108264                ymodem_recv_init
-                0x00000000001082b6                ymodem_rcv
-                0x00000000001089c6                nk_yrecv
-                0x0000000000108a70                debug_rcv_status
- .text          0x0000000000108af2        0x0 obj/version.o
- .text          0x0000000000108af2      0x35e /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(_udivdi3.o)
-                0x0000000000108af2                __udivdi3
- .text          0x0000000000108e50      0x352 /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(_umoddi3.o)
-                0x0000000000108e50                __umoddi3
- .text          0x00000000001091a2       0x64 /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(fixdfsi.o)
-                0x00000000001091a2                __fixdfsi
- .text          0x0000000000109206       0x5c /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(fixunsdfsi.o)
-                0x0000000000109206                __fixunsdfsi
- .text          0x0000000000109262      0x180 /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(floatdidf.o)
-                0x0000000000109262                __floatdidf
- .text          0x00000000001093e2      0x14e /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(floatundidf.o)
-                0x00000000001093e2                __floatundidf
- .text          0x0000000000109530      0x108 /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(floatdisf.o)
-                0x0000000000109530                __floatdisf
- .text          0x0000000000109638       0xda /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(floatundisf.o)
-                0x0000000000109638                __floatundisf
- .text          0x0000000000109712       0x98 /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(extendsfdf2.o)
-                0x0000000000109712                __extendsfdf2
- .text          0x00000000001097aa      0x122 /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(truncdfsf2.o)
-                0x00000000001097aa                __truncdfsf2
- .text          0x00000000001098cc       0x2a /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(_lshrdi3.o)
-                0x00000000001098cc                __lshrdi3
- .text          0x00000000001098f6       0x2a /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(_ashldi3.o)
-                0x00000000001098f6                __ashldi3
- .text          0x0000000000109920        0x0 /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(_clz.o)
- .text          0x0000000000109920       0x3c /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(_clzsi2.o)
-                0x0000000000109920                __clzsi2
+                0x0000000000105154                nk_resched
+                0x0000000000105218                nk_unsched
+                0x0000000000105268                nk_check
+                0x00000000001052b6                nk_init_sched
+                0x00000000001052fe                nk_get_sched_sleep_mode
+                0x0000000000105306                nk_set_sched_sleep_mode
+                0x0000000000105314                nk_sched_loop
+ .text          0x0000000000105388     0x29cc obj/libnklabs/src/nkserialize.o
+                0x0000000000105a6a                nk_dbase_fprint
+                0x00000000001060fa                nk_dbase_serialize
+                0x00000000001065e6                nk_fscan_keyval
+                0x0000000000107b6e                nk_xpath
+ .text          0x0000000000107d54      0x124 obj/libnklabs/src/nkstring.o
+                0x0000000000107d54                nk_tolower
+                0x0000000000107d64                nk_tolowers
+                0x0000000000107d88                nk_stricmp
+                0x0000000000107dee                nk_memicmp
+                0x0000000000107e48                nk_isxdigit
+                0x0000000000107e64                nk_isspace
+ .text          0x0000000000107e78      0xc78 obj/libnklabs/src/nkymodem.o
+                0x00000000001081ba                nk_ysend_file
+                0x0000000000108262                ymodem_recv_init
+                0x00000000001082b4                ymodem_rcv
+                0x00000000001089c4                nk_yrecv
+                0x0000000000108a6e                debug_rcv_status
+ .text          0x0000000000108af0        0x0 obj/version.o
+ .text          0x0000000000108af0      0x35e /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(_udivdi3.o)
+                0x0000000000108af0                __udivdi3
+ .text          0x0000000000108e4e      0x352 /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(_umoddi3.o)
+                0x0000000000108e4e                __umoddi3
+ .text          0x00000000001091a0       0x64 /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(fixdfsi.o)
+                0x00000000001091a0                __fixdfsi
+ .text          0x0000000000109204       0x5c /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(fixunsdfsi.o)
+                0x0000000000109204                __fixunsdfsi
+ .text          0x0000000000109260      0x180 /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(floatdidf.o)
+                0x0000000000109260                __floatdidf
+ .text          0x00000000001093e0      0x14e /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(floatundidf.o)
+                0x00000000001093e0                __floatundidf
+ .text          0x000000000010952e      0x108 /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(floatdisf.o)
+                0x000000000010952e                __floatdisf
+ .text          0x0000000000109636       0xda /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(floatundisf.o)
+                0x0000000000109636                __floatundisf
+ .text          0x0000000000109710       0x98 /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(extendsfdf2.o)
+                0x0000000000109710                __extendsfdf2
+ .text          0x00000000001097a8      0x122 /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(truncdfsf2.o)
+                0x00000000001097a8                __truncdfsf2
+ .text          0x00000000001098ca       0x2a /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(_lshrdi3.o)
+                0x00000000001098ca                __lshrdi3
+ .text          0x00000000001098f4       0x2a /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(_ashldi3.o)
+                0x00000000001098f4                __ashldi3
+ .text          0x000000000010991e        0x0 /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(_clz.o)
+ .text          0x000000000010991e       0x3c /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(_clzsi2.o)
+                0x000000000010991e                __clzsi2
  *(.text*)
  *(.rodata)
- *fill*         0x000000000010995c        0x0 
+ *fill*         0x000000000010995a        0x2 
  .rodata        0x000000000010995c       0x87 obj/nkymodem_cmd.o
                 0x000000000010995c                ymodem_file_fw0
                 0x000000000010997c                ymodem_file_fw1
@@ -441,41 +441,38 @@ Linker script and memory map
                 0x000000000010c230       0x1c obj/libnklabs/src/nkprintf.o
                                          0x28 (size before relaxing)
  .rodata.str1.4
-                0x000000000010c24c        0x4 obj/libnklabs/src/nkreadline.o
-                                          0x6 (size before relaxing)
- .rodata.str1.4
-                0x000000000010c250      0x24b obj/libnklabs/src/nksched.o
+                0x000000000010c24c      0x24b obj/libnklabs/src/nksched.o
                                         0x27b (size before relaxing)
- *fill*         0x000000000010c49b        0x1 
+ *fill*         0x000000000010c497        0x1 
  .rodata.str1.4
-                0x000000000010c49c      0x32c obj/libnklabs/src/nkserialize.o
+                0x000000000010c498      0x32c obj/libnklabs/src/nkserialize.o
                                         0x334 (size before relaxing)
  .rodata.str1.4
-                0x000000000010c7c8      0x21c obj/libnklabs/src/nkymodem.o
+                0x000000000010c7c4      0x21c obj/libnklabs/src/nkymodem.o
                                         0x21f (size before relaxing)
  *(.srodata)
- .srodata       0x000000000010c9e4        0xa obj/version.o
-                0x000000000010c9e4                build_minute
-                0x000000000010c9e5                build_hour
-                0x000000000010c9e6                build_day
-                0x000000000010c9e7                build_month
-                0x000000000010c9e8                build_year
-                0x000000000010c9ea                firmware_minor
-                0x000000000010c9ec                firmware_major
+ .srodata       0x000000000010c9e0        0xa obj/version.o
+                0x000000000010c9e0                build_minute
+                0x000000000010c9e1                build_hour
+                0x000000000010c9e2                build_day
+                0x000000000010c9e3                build_month
+                0x000000000010c9e4                build_year
+                0x000000000010c9e6                firmware_minor
+                0x000000000010c9e8                firmware_major
  *(.srodata*)
  *(.eh_frame)
- *fill*         0x000000000010c9ee        0x2 
- .eh_frame      0x000000000010c9f0       0x28 /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(_udivdi3.o)
- .eh_frame      0x000000000010ca18       0x28 /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(_umoddi3.o)
-                0x000000000010ca40                . = ALIGN (0x4)
-                0x000000000010ca40                _etext = .
-                0x000000000010ca40                _sidata = _etext
+ *fill*         0x000000000010c9ea        0x2 
+ .eh_frame      0x000000000010c9ec       0x28 /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(_udivdi3.o)
+ .eh_frame      0x000000000010ca14       0x28 /opt/riscv32imc/bin/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a(_umoddi3.o)
+                0x000000000010ca3c                . = ALIGN (0x4)
+                0x000000000010ca3c                _etext = .
+                0x000000000010ca3c                _sidata = _etext
 
-.rela.dyn       0x000000000010ca40        0x0
- .rela.text     0x000000000010ca40        0x0 obj/start.o
- .rela.rodata   0x000000000010ca40        0x0 obj/start.o
+.rela.dyn       0x000000000010ca3c        0x0
+ .rela.text     0x000000000010ca3c        0x0 obj/start.o
+ .rela.rodata   0x000000000010ca3c        0x0 obj/start.o
 
-.data           0x0000000000000100       0xc0 load address 0x000000000010ca40
+.data           0x0000000000000100       0xc0 load address 0x000000000010ca3c
                 0x0000000000000100                . = ALIGN (0x4)
                 0x0000000000000100                _sdata = .
                 0x0000000000000100                _ram_start = .
@@ -561,7 +558,7 @@ Linker script and memory map
                 0x00000000000001c0                . = ALIGN (0x4)
                 0x00000000000001c0                _edata = .
 
-.bss            0x00000000000001c0     0x172c load address 0x000000000010cb00
+.bss            0x00000000000001c0     0x172c load address 0x000000000010cafc
                 0x00000000000001c0                . = ALIGN (0x4)
                 0x00000000000001c0                _sbss = .
  *(.bss)
@@ -771,15 +768,51 @@ _ebss                                             obj/info_cmd.o
 _edata                                            obj/info_cmd.o
                                                   obj/start.o
 _etext                                            obj/info_cmd.o
+_nk_fiscan                                        obj/libnklabs/src/nkscan.o
 _nk_flush_and_putc                                obj/libnklabs/src/nkoutfile.o
                                                   obj/libnklabs/src/nkserialize.o
                                                   obj/libnklabs/src/nkprintf.o
                                                   obj/libnklabs/src/nkinfile.o
                                                   obj/libnklabs/src/nkdbase.o
+_nk_fprintf                                       obj/libnklabs/src/nkprintf.o
+                                                  obj/libnklabs/src/nkserialize.o
+                                                  obj/libnklabs/src/nkdbase.o
+_nk_fscan                                         obj/libnklabs/src/nkscan.o
+                                                  obj/libnklabs/src/nkserialize.o
+                                                  obj/libnklabs/src/nksched.o
+                                                  obj/libnklabs/src/nkmcuflash.o
+                                                  obj/libnklabs/src/nkdbase.o
+                                                  obj/libnklabs/src/nkcli.o
+                                                  obj/info_cmd.o
+                                                  obj/basic_cmds.o
+                                                  obj/database.o
+                                                  obj/tunnel_fpga.o
+                                                  obj/nkymodem_cmd.o
+                                                  obj/fpga.o
+_nk_printf                                        obj/libnklabs/src/nkprintf.o
+                                                  obj/libnklabs/src/nkymodem.o
+                                                  obj/libnklabs/src/nksched.o
+                                                  obj/libnklabs/src/nkmcuflash.o
+                                                  obj/libnklabs/src/nkdbase.o
+                                                  obj/libnklabs/src/nkcli.o
+                                                  obj/info_cmd.o
+                                                  obj/basic_cmds.o
+                                                  obj/database.o
+                                                  obj/tunnel_fpga.o
+                                                  obj/nkymodem_cmd.o
+                                                  obj/fpga.o
+                                                  obj/main.o
 _nk_sched                                         obj/libnklabs/src/nksched.o
                                                   obj/libnklabs/src/nkymodem.o
                                                   obj/libnklabs/src/nkcli.o
                                                   obj/nkuart_riscv.o
+_nk_sfprintf                                      obj/libnklabs/src/nkprintf.o
+_nk_snprintf                                      obj/libnklabs/src/nkprintf.o
+                                                  obj/libnklabs/src/nkymodem.o
+                                                  obj/libnklabs/src/nkserialize.o
+_nk_viscan                                        obj/libnklabs/src/nkscan.o
+_nk_vprintf                                       obj/libnklabs/src/nkprintf.o
+_nk_vscan                                         obj/libnklabs/src/nkscan.o
 _sbss                                             obj/info_cmd.o
                                                   obj/start.o
 _sdata                                            obj/info_cmd.o
@@ -843,7 +876,6 @@ memmove                                           obj/nkarch_riscv.o
                                                   obj/libnklabs/src/nkreadline.o
 memset                                            obj/nkarch_riscv.o
                                                   obj/libnklabs/src/nkymodem.o
-                                                  obj/libnklabs/src/nkcli.o
 nk_alloc_tid                                      obj/libnklabs/src/nksched.o
                                                   obj/libnklabs/src/nkymodem.o
                                                   obj/libnklabs/src/nkcli.o
@@ -909,24 +941,8 @@ nk_fflush                                         obj/libnklabs/src/nkoutfile.o
                                                   obj/libnklabs/src/nkdbase.o
 nk_findent                                        obj/libnklabs/src/nkprintf.o
                                                   obj/libnklabs/src/nkserialize.o
-nk_fiscan                                         obj/libnklabs/src/nkscan.o
 nk_fiscan_ident                                   obj/libnklabs/src/nkscan.o
 nk_fiscan_word                                    obj/libnklabs/src/nkscan.o
-nk_fprintf                                        obj/libnklabs/src/nkprintf.o
-                                                  obj/libnklabs/src/nkserialize.o
-                                                  obj/libnklabs/src/nkdbase.o
-nk_fscan                                          obj/libnklabs/src/nkscan.o
-                                                  obj/libnklabs/src/nkserialize.o
-                                                  obj/libnklabs/src/nksched.o
-                                                  obj/libnklabs/src/nkmcuflash.o
-                                                  obj/libnklabs/src/nkdbase.o
-                                                  obj/libnklabs/src/nkcli.o
-                                                  obj/info_cmd.o
-                                                  obj/basic_cmds.o
-                                                  obj/database.o
-                                                  obj/tunnel_fpga.o
-                                                  obj/nkymodem_cmd.o
-                                                  obj/fpga.o
 nk_fscan_dec                                      obj/libnklabs/src/nkscan.o
 nk_fscan_double                                   obj/libnklabs/src/nkscan.o
                                                   obj/libnklabs/src/nkserialize.o
@@ -988,19 +1004,6 @@ nk_mcuflash_write                                 obj/nkarch_riscv.o
                                                   obj/database.o
                                                   obj/nkymodem_cmd.o
 nk_memicmp                                        obj/libnklabs/src/nkstring.o
-nk_printf                                         obj/libnklabs/src/nkprintf.o
-                                                  obj/libnklabs/src/nkymodem.o
-                                                  obj/libnklabs/src/nksched.o
-                                                  obj/libnklabs/src/nkmcuflash.o
-                                                  obj/libnklabs/src/nkdbase.o
-                                                  obj/libnklabs/src/nkcli.o
-                                                  obj/info_cmd.o
-                                                  obj/basic_cmds.o
-                                                  obj/database.o
-                                                  obj/tunnel_fpga.o
-                                                  obj/nkymodem_cmd.o
-                                                  obj/fpga.o
-                                                  obj/main.o
 nk_putc                                           obj/nkuart_riscv.o
                                                   obj/libnklabs/src/nkymodem.o
                                                   obj/libnklabs/src/nkreadline.o
@@ -1008,7 +1011,6 @@ nk_putc                                           obj/nkuart_riscv.o
                                                   obj/libnklabs/src/nkcli.o
 nk_puts                                           obj/nkuart_riscv.o
                                                   obj/libnklabs/src/nkreadline.o
-                                                  obj/libnklabs/src/nkcli.o
 nk_readline                                       obj/libnklabs/src/nkreadline.o
                                                   obj/libnklabs/src/nkcli.o
 nk_resched                                        obj/libnklabs/src/nksched.o
@@ -1024,10 +1026,6 @@ nk_set_uart_callback                              obj/nkuart_riscv.o
                                                   obj/libnklabs/src/nkreadline.o
 nk_set_uart_mode                                  obj/nkuart_riscv.o
                                                   obj/libnklabs/src/nkymodem.o
-nk_sfprintf                                       obj/libnklabs/src/nkprintf.o
-nk_snprintf                                       obj/libnklabs/src/nkprintf.o
-                                                  obj/libnklabs/src/nkymodem.o
-                                                  obj/libnklabs/src/nkserialize.o
 nk_stricmp                                        obj/libnklabs/src/nkstring.o
 nk_tolower                                        obj/libnklabs/src/nkstring.o
                                                   obj/libnklabs/src/nkscan.o
@@ -1039,9 +1037,6 @@ nk_udelay                                         obj/nkarch_riscv.o
                                                   obj/basic_cmds.o
 nk_unsched                                        obj/libnklabs/src/nksched.o
                                                   obj/libnklabs/src/nkymodem.o
-nk_viscan                                         obj/libnklabs/src/nkscan.o
-nk_vprintf                                        obj/libnklabs/src/nkprintf.o
-nk_vscan                                          obj/libnklabs/src/nkscan.o
 nk_xpath                                          obj/libnklabs/src/nkserialize.o
                                                   obj/database.o
 nk_yrecv                                          obj/libnklabs/src/nkymodem.o
@@ -1077,7 +1072,6 @@ sched_lock                                        obj/libnklabs/src/nksched.o
 stpcpy                                            obj/nkarch_riscv.o
 strcmp                                            obj/nkarch_riscv.o
                                                   obj/libnklabs/src/nkserialize.o
-                                                  obj/libnklabs/src/nkcli.o
 strcpy                                            obj/nkarch_riscv.o
                                                   obj/libnklabs/src/nkreadline.o
                                                   obj/nkymodem_cmd.o

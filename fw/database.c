@@ -64,9 +64,9 @@ const struct nk_dbase cal_dbase =
         .area_base = FLASH_CAL_KEYVAL_ADDR_1,
         .erase_size = NK_MCUFLASH_ERASE_SIZE,
         .info = NULL,
-        .flash_read = (int (*)(const void *, uint32_t, uint8_t *, uint32_t))nk_mcuflash_read, // info, address, data, byte_count
+        .flash_read = (int (*)(const void *, uint32_t, uint8_t *, size_t))nk_mcuflash_read, // info, address, data, byte_count
         .flash_erase = (int (*)(const void *info, uint32_t addr, uint32_t size))nk_mcuflash_erase,
-        .flash_write = (int (*)(const void *, uint32_t, const uint8_t *, uint32_t))nk_mcuflash_write, // info, address, data, byte_count
+        .flash_write = (int (*)(const void *, uint32_t, const uint8_t *, size_t))nk_mcuflash_write, // info, address, data, byte_count
         .granularity = 1
     },
 
@@ -75,9 +75,9 @@ const struct nk_dbase cal_dbase =
         .area_base = FLASH_CAL_KEYVAL_ADDR_2,
         .erase_size = NK_MCUFLASH_ERASE_SIZE,
         .info = NULL,
-        .flash_read = (int (*)(const void *, uint32_t, uint8_t *, uint32_t))nk_mcuflash_read, // info, address, data, byte_count
+        .flash_read = (int (*)(const void *, uint32_t, uint8_t *, size_t))nk_mcuflash_read, // info, address, data, byte_count
         .flash_erase = (int (*)(const void *info, uint32_t addr, uint32_t size))nk_mcuflash_erase,
-        .flash_write = (int (*)(const void *, uint32_t, const uint8_t *, uint32_t))nk_mcuflash_write, // info, address, data, byte_count
+        .flash_write = (int (*)(const void *, uint32_t, const uint8_t *, size_t))nk_mcuflash_write, // info, address, data, byte_count
         .granularity = 1
     },
 

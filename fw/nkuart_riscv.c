@@ -30,7 +30,7 @@ static uint32_t rx_buf_rd;
 static volatile uint32_t rx_buf_wr;
 static int tty_mode;
 
-spinlock_t console_lock = SPIN_LOCK_UNLOCKED;
+nk_spinlock_t console_lock = SPIN_LOCK_UNLOCKED;
 
 // Task to submit when rx data available
 int waiting_rx_tid;
@@ -39,8 +39,8 @@ void *waiting_rx_task_data;
 
 void nk_set_uart_callback(int tid, void (*func)(void *data), void *data)
 {
-        unsigned long irq_flag;
-        nk_irq_lock(&console_lock, irq_flag);
+        nk_irq_flag_t irq_flag;
+        irq_flag = nk_irq_lock(&console_lock);
 	if (rx_buf_rd != rx_buf_wr) {
 		// Data is available now
 		nk_sched(tid, func, data, 0, "UART ISR");
@@ -72,8 +72,8 @@ static void wait_for_space()
 
 void nk_putc(char ch)
 {
-        unsigned long irq_flag;
-        nk_irq_lock(&console_lock, irq_flag);
+        nk_irq_flag_t irq_flag;
+        irq_flag = nk_irq_lock(&console_lock);
 	if (!tty_mode && ch == '\n') {
 		wait_for_space();
 		reg_uart_data = '\r';
@@ -85,8 +85,8 @@ void nk_putc(char ch)
 
 void nk_puts(const char *s)
 {
-        unsigned long irq_flag;
-        nk_irq_lock(&console_lock, irq_flag);
+        nk_irq_flag_t irq_flag;
+        irq_flag = nk_irq_lock(&console_lock);
 	while (*s) {
 		nk_putc(*s++);
 	}
@@ -95,8 +95,8 @@ void nk_puts(const char *s)
 
 void nk_uart_write(const char *s, int len)
 {
-	unsigned long irq_flag;
-	nk_irq_lock(&console_lock, irq_flag);
+	nk_irq_flag_t irq_flag;
+	irq_flag = nk_irq_lock(&console_lock);
 	while (len--) {
 		nk_putc(*s++);
 	}
@@ -130,8 +130,8 @@ void picorv32_uart_irq()
 int nk_getc()
 {
 	int ch = -1;
-        unsigned long irq_flag;
-        nk_irq_lock(&console_lock, irq_flag);
+        nk_irq_flag_t irq_flag;
+        irq_flag = nk_irq_lock(&console_lock);
         rx_chars();
 	if (rx_buf_rd != rx_buf_wr) {
 		ch = rx_buf[rx_buf_rd++ & (sizeof(rx_buf) - 1)];
@@ -142,8 +142,8 @@ int nk_getc()
 
 int nk_kbhit()
 {
-        unsigned long irq_flag;
-        nk_irq_lock(&console_lock, irq_flag);
+        nk_irq_flag_t irq_flag;
+        irq_flag = nk_irq_lock(&console_lock);
 	if (rx_buf_rd != rx_buf_wr) {
 		nk_irq_unlock(&console_lock, irq_flag);
 		return 1;
