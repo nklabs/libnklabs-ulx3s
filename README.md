@@ -129,18 +129,18 @@ Follow instructions in README.md file, starting with "make download-tools".
 
 You need the ULX3S board, you can get one from here:
 
-(https://www.crowdsupply.com/radiona/ulx3s)[https://www.crowdsupply.com/radiona/ulx3s]
+[https://www.crowdsupply.com/radiona/ulx3s](https://www.crowdsupply.com/radiona/ulx3s)
 
 You can get the Lattice Diamond software from here:
 
-(https://www.latticesemi.com/en/Products/DesignSoftwareAndIP/FPGAandLDS/LatticeDiamond)[https://www.latticesemi.com/en/Products/DesignSoftwareAndIP/FPGAandLDS/LatticeDiamond]
+[https://www.latticesemi.com/en/Products/DesignSoftwareAndIP/FPGAandLDS/LatticeDiamond](https://www.latticesemi.com/en/Products/DesignSoftwareAndIP/FPGAandLDS/LatticeDiamond)
 
 It's designed for RedHat, but I followed these instructions for installing
 Diamond on Ubuntu:
 
-(https://ycnrg.org/lattice-diamond-on-ubuntu-16-04/)[https://ycnrg.org/lattice-diamond-on-ubuntu-16-04/]
+[https://ycnrg.org/lattice-diamond-on-ubuntu-16-04/](https://ycnrg.org/lattice-diamond-on-ubuntu-16-04/)
 
-(http://timallen.name/index.php/2019/01/14/installing-lattice-diamond-on-ubuntu-18-04/)[http://timallen.name/index.php/2019/01/14/installing-lattice-diamond-on-ubuntu-18-04/]
+[http://timallen.name/index.php/2019/01/14/installing-lattice-diamond-on-ubuntu-18-04/](http://timallen.name/index.php/2019/01/14/installing-lattice-diamond-on-ubuntu-18-04/)
 
 *NOTE* - Make sure that the tools end up in /opt, e.g.:
 ```
