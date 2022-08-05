@@ -163,25 +163,6 @@ of /bin/dash.
 	sudo rm /bin/sh
 	sudo ln -s /bin/bash /bin/sh
 
-## Serial Cable
-
-In Windows I am able to use the extra ports of the FTDI FT2232 USB to serial
-adapter chip for the embedded programmer as a console UART for the FPGA.  In
-Linux, all ports of the FTDI chip become disabled, so this can't be done. 
-Worse, the Diamond programmer crashes if you have any other FTDI cable
-plugged into your computer.  The solution is to use a Prolific or SiLabs
-based USB to serial adapter cable for the serial console.
-
-The serial console cable should be connected to J40:
-
-* K4 is serial output
-* P1 is serial input
-
-The baud rate is 115200.  In Linux, I recommend Picocom:
-
-	apt-get install picocom
-	sudo picocom --baud 115200 /dev/ttyUSB0
-
 ## FPGA build using Makefile
 
 If you are not using environment modules:
