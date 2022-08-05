@@ -11,9 +11,59 @@ Photo of the board:
 The ULX3S board has an FTDI USB to serial adapter IC on it.  The libnklabs
 CLI appears on this serial port.
 
-Here is a block diagram of the SoC:
+Here is a block diagram of the SoC, showing CPU addresses of each block:
 
 ![Block Diagram](doc/soc.png)
+
+The SPI-flash IC on the ULX3S is used both to store the FPGA .bit file and
+to hold the up to 1MB software image for the RISC-V.  Here is a memory map
+of the SPI-flash IC:
+
+* 0x000_0000 - ....        FPGA .bit file: the FPGA configured itself from this on power up
+* 0x060_0000 - 0x06F_FFFF  Bank 0 firmware
+* 0x0E0_0000 - 0x0EF_FFFF  Bank 1 firmware
+* 0x0FC_0000 - 0x0FC_FFFF  Database bank 0
+* 0x0FD_0000 - 0x0FD_FFFF  Database bank 1
+* 0x0FE_0000               Bank select bit (bit 0 of first byte)
+
+The bank select bit indicates which bank will hold the active firmware on
+the next reboot.  The idea is that after a firmware update, this bit is
+flipped as the last step, after the firmware's CRC has been verified.  If
+there is a power outage during an upgrade, the bit will not have been
+flipped, so the older firmware is used.
+
+The firmware from the selected bank is mapped to 0x0010_0000 - 0x001F_FFFF. 
+An instruction cache speeds access to this bank.  A mechanism is provided for
+software to read, write and erase any part of the SPI-flash IC.  The
+software must not modify the active bank.  This is sometimes known as
+"execute in place".
+
+The SPI-flash IC can be used to store other data beyond the software image
+and FPGA .bit file.  The example shows how a database can be stored in the
+SPI-flash: this is what the database bank 0 and bank 1 areas are for.
+
+## Other blocks
+
+RAM: 64KB of RAM is provided for the software.  This is implemented using
+FPGA block RAMs.
+
+Clock: This is a register that counts CPU clock cycles.  It is used for the
+nksched.
+
+UART: A UART with 32-byte receive and transmit FIFOs is provided for the CLI.
+
+The LED_REG is provided to control some ULX3S LEDs.  This is useful for CPU
+bringup.  Progress codes are written to these LEDs by the software startup
+code.
+
+The CPU_FREQ register hold the CPU frequency in Hz.
+
+There is a bus bridge to the main system bus.  This main bus runs at the
+frequency of your main FPGA design.  This allows the cpu bus and main bus to
+run at different frequencies.
+
+On the main bus is an identification register, a test read/write register,
+and interrupt status and enable regsiters.
 
 # Build Instructions
 
