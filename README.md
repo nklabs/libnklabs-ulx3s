@@ -65,6 +65,9 @@ run at different frequencies.
 On the main bus is an identification register, a test read/write register,
 and interrupt status and enable regsiters.
 
+PLL supplies the clock for both the CPU bus and the main bus.  ULX3S has a
+25 MHz oscillator to feed the PLL.
+
 # Build Instructions
 
 ## Environment modules
