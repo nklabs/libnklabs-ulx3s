@@ -1,4 +1,12 @@
-all: obj ulx3s_impl1.mcs fpga.bin
+# Name of this project, final target
+
+NAME := ulx3s
+
+all: fpga.bin $(NAME)_impl1.mcs $(NAME).bin
+
+# Where should we put object and dependency files?
+# This directory is deleted by "make clean"
+OBJ_DIR := obj/
 
 # Get application version number
 
@@ -25,15 +33,16 @@ NK_GIT_REV := \"$(shell git rev-parse HEAD)-$(shell if git diff-index --quiet HE
 FOUNDRY ?= /opt/lattice/radiant/2.2/ispfpga
 
 # GCC bin directory
-TOOL = /opt/riscv32imc/bin
+TOOL_DIR := /opt/riscv32imc/bin/
 
-CC = ${TOOL}/riscv32-unknown-elf-gcc
+CC := $(TOOL_DIR)riscv32-unknown-elf-gcc
+CPP := $(TOOL_DIR)riscv32-unknown-elf-g++
+AS := $(TOOL_DIR)riscv32-unknown-elf-as
+LD := $(TOOL_DIR)riscv32-unknown-elf-ld
+OBJCOPY := $(TOOL_DIR)riscv32-unknown-elf-objcopy
+OBJDUMP := $(TOOL_DIR)riscv32-unknown-elf-objdump
 
-AS = ${TOOL}/riscv32-unknown-elf-gcc
-
-ASFLAGS = -march=rv32imc -c
-
-CFLAGS = -I libnklabs/inc -I config -I . -O -march=rv32imc -Wall -Wconversion -Wunused -Wwrite-strings \
+CFLAGS := -I libnklabs/inc -I config -I . -O -march=rv32imc -Wall -Wconversion -Wunused -Wwrite-strings \
  -Wstrict-overflow=4 -Wmissing-include-dirs -Winit-self -Wcast-qual \
  -Wundef -Wlogical-op -Wmissing-declarations -Wformat \
  -Wmissing-format-attribute -Wformat-nonliteral \
@@ -42,52 +51,60 @@ CFLAGS = -I libnklabs/inc -I config -I . -O -march=rv32imc -Wall -Wconversion -W
 
 # -ffreestanding
 
-LDFLAGS = $(MCU) -specs=nano.specs -Tsections.lds $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
+LDFLAGS := $(MCU) -specs=nano.specs -Tsections.lds $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 
-OBJS = start.o main.o fpga.o nkarch_riscv.o nkuart_riscv.o nkymodem_cmd.o tunnel_fpga.o database.o \
-basic_cmds.o \
-info_cmd.o \
-libnklabs/src/nkchecked.o \
-libnklabs/src/nkdirect.o \
-libnklabs/src/nkcli.o \
-libnklabs/src/nkcrclib.o \
-libnklabs/src/nkdbase.o \
-libnklabs/src/nkinfile.o \
-libnklabs/src/nkmcuflash.o \
-libnklabs/src/nkoutfile.o \
-libnklabs/src/nkprintf.o \
-libnklabs/src/nkreadline.o \
-libnklabs/src/nkscan.o \
-libnklabs/src/nksched.o \
-libnklabs/src/nkserialize.o \
-libnklabs/src/nkstring.o \
-libnklabs/src/nkymodem.o
+OBJS := \
+  basic_cmds.o \
+  database.o \
+  fpga.o \
+  info_cmd.o \
+  libnklabs/src/nkchecked.o \
+  libnklabs/src/nkcli.o \
+  libnklabs/src/nkcrclib.o \
+  libnklabs/src/nkdbase.o \
+  libnklabs/src/nkdirect.o \
+  libnklabs/src/nkinfile.o \
+  libnklabs/src/nkmcuflash.o \
+  libnklabs/src/nkoutfile.o \
+  libnklabs/src/nkprintf.o \
+  libnklabs/src/nkreadline.o \
+  libnklabs/src/nkscan.o \
+  libnklabs/src/nksched.o \
+  libnklabs/src/nkserialize.o \
+  libnklabs/src/nkstring.o \
+  libnklabs/src/nkymodem.o \
+  main.o \
+  nkarch_riscv.o \
+  nkuart_riscv.o \
+  nkymodem_cmd.o \
+  start.o \
+  tunnel_fpga.o \
 
 # Keep them in a subdirectory
-MOST_OBJS = $(addprefix obj/, $(OBJS))
+MOST_OBJS := $(addprefix $(OBJ_DIR), $(OBJS))
 
-SUBDIR_OBJS = $(MOST_OBJS) obj/version.o
+SUBDIR_OBJS := $(MOST_OBJS) $(OBJ_DIR)version.o
 
 # Rebuild version.o if any other file changed
-obj/version.o: $(MOST_OBJS) VERSION_MAJOR VERSION_MINOR
+$(OBJ_DIR)version.o: $(MOST_OBJS) VERSION_MAJOR VERSION_MINOR
 
 # Use Diamond "deployment tool" to combine FPGA configuration file with firmware
 # Note that byte mirroring must be enabled for the firmware.
-ulx3s_impl1.mcs: ../impl1/ulx3s_impl1.bit ulx3s.bin
-	${FOUNDRY}/../bin/lin64/ddtcmd -oft -advanced -dev LFE5U-85F \
-		-if ../impl1/ulx3s_impl1.bit -format int -flashsize 128 \
+$(NAME)_impl1.mcs: ../impl1/$(NAME)_impl1.bit $(NAME).bin
+	$(FOUNDRY)/../bin/lin64/ddtcmd -oft -advanced -dev LFE5U-85F \
+		-if ../impl1/$(NAME)_impl1.bit -format int -flashsize 128 \
 		-usermirror -userdata 2 \
-		-userfile ulx3s.bin -address 0x00E00000 \
-		-userfile ulx3s.bin -address 0x00600000 \
-		-of ulx3s_impl1.mcs
-	cp ulx3s_impl1.mcs ../impl1/ulx3s_impl1.mcs
+		-userfile $(NAME).bin -address 0x00E00000 \
+		-userfile $(NAME).bin -address 0x00600000 \
+		-of $(NAME)_impl1.mcs
+	cp $(NAME)_impl1.mcs ../impl1/$(NAME)_impl1.mcs
 
 # create fpga.bin from .bit file
 
-fpga.bin: ../impl1/ulx3s_impl1.bit ./exotobin ./brev
+fpga.bin: ../impl1/$(NAME)_impl1.bit ./exotobin ./brev
 	/bin/rm -f fpga.exo
-	${FOUNDRY}/../bin/lin64/ddtcmd -oft -mot -dev LFE5U-85F -if ../impl1/ulx3s_impl1.bit -of fpga.exo
-	${FOUNDRY}/../bin/lin64/ddtcmd -oft -int -dev LFE5U-85F -if ../impl1/ulx3s_impl1.bit -of fpga.mcs
+	$(FOUNDRY)/../bin/lin64/ddtcmd -oft -mot -dev LFE5U-85F -if ../impl1/$(NAME)_impl1.bit -of fpga.exo
+	$(FOUNDRY)/../bin/lin64/ddtcmd -oft -int -dev LFE5U-85F -if ../impl1/$(NAME)_impl1.bit -of fpga.mcs
 	./exotobin fpga.exo -o fpga.rbin
 	./brev <fpga.rbin >fpga.bin
 
@@ -101,18 +118,16 @@ exotobin: exotobin.c
 brev: brev.c
 	cc -o brev brev.c
 
-ulx3s: ulx3s.mem ulx3s.hex
-
-ulx3s.elf: sections.lds $(SUBDIR_OBJS)
-	${TOOL}/riscv32-unknown-elf-ld -Bstatic -T sections.lds --strip-debug -o ulx3s.elf -Map=ulx3s.map --cref $(SUBDIR_OBJS) ${TOOL}/../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a
+$(NAME).elf: sections.lds $(SUBDIR_OBJS)
+	$(LD) -Bstatic -T sections.lds --strip-debug -o $(NAME).elf -Map=$(NAME).map --cref $(SUBDIR_OBJS) $(TOOL_DIR)../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a
 
 # Word hex file for bus_rom.v
-ulx3s.mem: ulx3s.bin bintov
-	./bintov ulx3s.bin ulx3s.mem
+$(NAME).mem: $(NAME).bin bintov
+	./bintov $(NAME).bin $(NAME).mem
 
 # Byte hex file for simulation
-ulx3s.hex: ulx3s.bin bintob
-	./bintob ulx3s.bin ulx3s.hex
+$(NAME).hex: $(NAME).bin bintob
+	./bintob $(NAME).bin $(NAME).hex
 
 bintov: bintov.c
 	cc -o bintov bintov.c
@@ -120,28 +135,39 @@ bintov: bintov.c
 bintob: bintob.c
 	cc -o bintob bintob.c
 
-ulx3s.bin: ulx3s.elf
-	${TOOL}/riscv32-unknown-elf-objcopy -O binary ulx3s.elf ulx3s.bin
+$(NAME).bin: $(NAME).elf
+	$(OBJCOPY) -O binary $(NAME).elf $(NAME).bin
 
+# Commmands / phony targets
+
+.PHONY: help
+help:
+	@echo
+	@echo "make                     Build $(NAME).bin"
+	@echo
+	@echo "make clean               Delete intermediate files"
+	@echo
+	@echo "make cleaner             Delete intermediate files and final image"
+	@echo
+
+.PHONY: clean
 clean:
-	rm -f ulx3s.elf ulx3s.hex ulx3s.bin ulx3s.map
-	rm -rf obj
+	rm -rf $(OBJ_DIR)
 
-# Automatically create object file directory
-
-obj:
-	mkdir obj
-	mkdir obj/libnklabs
-	mkdir obj/libnklabs/src
+.PHONY: cleaner
+cleaner: clean
+	rm -f $(NAME).elf $(NAME).hex $(NAME).bin $(NAME).map
 
 # Bump version numbers...
 
+.PHONY: bump_minor
 bump_minor:
 	@expr `cat VERSION_MINOR` + 1 >VERSION_MINOR
 	@echo
 	@echo New version V`cat VERSION_MAJOR`R`cat VERSION_MINOR`
 	@echo
 
+.PHONY: bump_major
 bump_major:
 	@expr `cat VERSION_MAJOR` + 1 >VERSION_MAJOR
 	@echo 0 > VERSION_MINOR
@@ -152,16 +178,20 @@ bump_major:
 # include dependancy files if they exist
 -include $(SUBDIR_OBJS:.o=.d)
 
-# compile and generate dependency info
-obj/%.o: %.c
-	$(CC) -c $(CFLAGS) $*.c -o obj/$*.o
-	@$(CC) -MM $(CFLAGS) $*.c > obj/$*.d
-# Improve dependency file produced by gcc... allows files to be renamed and source files to exist
-# in subdirectories.
-	@mv -f obj/$*.d obj/$*.d.tmp
-	@sed -e 's|.*:|obj/$*.o:|' < obj/$*.d.tmp > obj/$*.d
-	@sed -e 's/.*://' -e 's/\\$$//' < obj/$*.d.tmp | fmt -1 | sed -e 's/^ *//' -e 's/$$/:/' >> obj/$*.d
-	@rm -f obj/$*.d.tmp
+# Compile and generate dependency info, C files
+$(OBJ_DIR)%.o: %.c
+	@echo
+	@mkdir -p $(OBJ_DIR)$(shell dirname $*)
+	$(CC) -c $(CFLAGS) -MT $@ -MMD -MP -MF $(OBJ_DIR)$*.d $*.c -o $(OBJ_DIR)$*.o
 
-obj/%.o: %.S
-	$(CC) -c $(CFLAGS) $*.S -o obj/$*.o
+# Compile and generate dependency info, CPP files
+$(OBJ_DIR)%.o: %.cpp
+	@echo
+	@mkdir -p $(OBJ_DIR)$(shell dirname $*)
+	$(CPP) -c $(CFLAGS) -MT $@ -MMD -MP -MF $(OBJ_DIR)$*.d $*.cpp -o $(OBJ_DIR)$*.o
+
+# Assemble
+$(OBJ_DIR)%.o: %.S
+	@echo
+	@mkdir -p $(OBJ_DIR)$(shell dirname $*)
+	$(CC) -c $(CFLAGS) -MT $@ -MMD -MP -MF $(OBJ_DIR)$*.d $*.S -o $(OBJ_DIR)$*.o
