@@ -1,8 +1,12 @@
 # Name of this project, final target
 
+# Software name
 NAME := ulx3s
 
-all: fpga.bin $(NAME)_impl1.mcs $(NAME).bin
+# FPGA .bitfile name
+BITNAME := ulx3s
+
+all: fpga.bin $(BITNAME)_impl1.mcs $(NAME).bin
 
 # Where should we put object and dependency files?
 # This directory is deleted by "make clean"
@@ -30,7 +34,7 @@ NK_PLATFORM := NK_PLATFORM_RISCV
 NK_GIT_REV := \"$(shell git rev-parse HEAD)-$(shell if git diff-index --quiet HEAD --; then echo clean; else echo dirty; fi)\"
 
 # Path to Lattice Diamond: usually diamond environement setup will have this
-FOUNDRY ?= /opt/lattice/radiant/2.2/ispfpga
+FOUNDRY ?= /usr/local/diamond/3.11_x64/ispfpga
 
 # GCC bin directory
 TOOL_DIR := /opt/riscv32imc/bin/
@@ -90,21 +94,22 @@ $(OBJ_DIR)version.o: $(MOST_OBJS) VERSION_MAJOR VERSION_MINOR
 
 # Use Diamond "deployment tool" to combine FPGA configuration file with firmware
 # Note that byte mirroring must be enabled for the firmware.
-$(NAME)_impl1.mcs: ../impl1/$(NAME)_impl1.bit $(NAME).bin
+
+$(BITNAME)_impl1.mcs: ../impl1/$(BITNAME)_impl1.bit $(NAME).bin
 	$(FOUNDRY)/../bin/lin64/ddtcmd -oft -advanced -dev LFE5U-85F \
-		-if ../impl1/$(NAME)_impl1.bit -format int -flashsize 128 \
+		-if ../impl1/$(BITNAME)_impl1.bit -format int -flashsize 128 \
 		-usermirror -userdata 2 \
 		-userfile $(NAME).bin -address 0x00E00000 \
 		-userfile $(NAME).bin -address 0x00600000 \
-		-of $(NAME)_impl1.mcs
-	cp $(NAME)_impl1.mcs ../impl1/$(NAME)_impl1.mcs
+		-of $(BITNAME)_impl1.mcs
+	cp $(BITNAME)_impl1.mcs ../impl1/$(BITNAME)_impl1.mcs
 
 # create fpga.bin from .bit file
 
-fpga.bin: ../impl1/$(NAME)_impl1.bit ./exotobin ./brev
+fpga.bin: ../impl1/$(BITNAME)_impl1.bit ./exotobin ./brev
 	/bin/rm -f fpga.exo
-	$(FOUNDRY)/../bin/lin64/ddtcmd -oft -mot -dev LFE5U-85F -if ../impl1/$(NAME)_impl1.bit -of fpga.exo
-	$(FOUNDRY)/../bin/lin64/ddtcmd -oft -int -dev LFE5U-85F -if ../impl1/$(NAME)_impl1.bit -of fpga.mcs
+	$(FOUNDRY)/../bin/lin64/ddtcmd -oft -mot -dev LFE5U-85F -if ../impl1/$(BITNAME)_impl1.bit -of fpga.exo
+	$(FOUNDRY)/../bin/lin64/ddtcmd -oft -int -dev LFE5U-85F -if ../impl1/$(BITNAME)_impl1.bit -of fpga.mcs
 	./exotobin fpga.exo -o fpga.rbin
 	./brev <fpga.rbin >fpga.bin
 
@@ -118,6 +123,7 @@ exotobin: exotobin.c
 brev: brev.c
 	cc -o brev brev.c
 
+# Link
 $(NAME).elf: sections.lds $(SUBDIR_OBJS)
 	$(LD) -Bstatic -T sections.lds --strip-debug -o $(NAME).elf -Map=$(NAME).map --cref $(SUBDIR_OBJS) $(TOOL_DIR)../lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a
 
